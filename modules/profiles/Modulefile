@@ -1,0 +1,10 @@
+name          'apowers-profiles'
+version       '0.1.0'
+source        'https://github.com/apowers/puppet-cd-skeleton'
+author        'apowers'
+license       'MIT'
+summary       'Profiles for Puppet-CD-Demo'
+description   'Profiles for Puppet-CD-Demo'
+project_page  'https://github.com/apowers/puppet-cd-skeleton'
+
+dependency 'puppetlabs/stdlib'
