@@ -1,0 +1,11 @@
+fixtures:
+  repositories:
+    stdlib:  "git://github.com/puppetlabs/puppetlabs-stdlib.git"
+    apt:     'git://github.com/puppetlabs/puppetlabs-apt.git'
+    java:    'https://github.com/puppetlabs/puppetlabs-java'
+    jenkins: 'git://github.com/jenkinsci/puppet-jenkins'
+    nginx:   'https://github.com/jfryman/puppet-nginx'
+    nrpe:    'git://github.com/ghoneycutt/puppet-module-nrpe.git'
+    puppet:  'git://github.com/seattle-biomed/puppet-puppet.git'
+  symlinks:
+    profiles: "#{source_dir}"

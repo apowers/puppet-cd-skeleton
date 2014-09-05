@@ -1,0 +1,12 @@
+---
+:backends:
+  - yaml
+
+:yaml:
+  :datadir: '/etc/puppet/data'
+
+:hierarchy:
+  - 'hosts/%{fqdn}'
+  - 'roles/%{role}'
+  - 'env/%{environment}'
+  - 'default'

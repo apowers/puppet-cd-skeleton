@@ -6,6 +6,8 @@ hosts.each do |host|
   install_puppet
 end
 
+UNSUPPORTED_PLATFORMS = ['RedHat', 'Suse','windows','AIX','Solaris']
+
 RSpec.configure do |c|
   # Project root
   proj_root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
@@ -22,3 +24,4 @@ RSpec.configure do |c|
     end
   end
 end
+
