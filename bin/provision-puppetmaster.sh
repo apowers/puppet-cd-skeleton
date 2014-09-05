@@ -30,8 +30,7 @@ puppet_pkg='puppetmaster'
 puppet_conf='puppet.conf'
 
 PUPPET_URL='http://apt.puppetlabs.com/'
-DISTRIB_CODENAME=`awk -F= '/^DISTRIB_CODENAME/ { print $2 }' /etc/lsb-release`
-PUPPET_REPO="puppetlabs-release-$DISTRIB_CODENAME.deb"
+PUPPET_REPO="puppetlabs-release-$(lsb_release -c -s).deb";
 POSTGRESQL_VERSION='9.1'
 
 # Make apt-get install really really quietly.

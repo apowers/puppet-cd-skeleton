@@ -1,14 +1,14 @@
 HOSTS:
   ubuntu-1404-amd64-baseimage:
     roles:
-      - agent
+      - master
     platform:   ubuntu-14.04-amd64
     hypervisor: docker
-    provision:  false
+#    provision:  false
     image:      phusion/baseimage
     docker_cmd: '/sbin/my_init --enable-insecure-key'
-    docker_image_commands:
-       - '/remote/bin/provision-standalone.sh'
+#    docker_image_commands:
+#       - '/remote/bin/provision-standalone.sh'
 
 CONFIG:
   log_level: verbose

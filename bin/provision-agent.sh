@@ -20,13 +20,11 @@ GEM_OPTS='--no-rdoc --quiet --no-ri'
 OSFAMILY=$(cat /etc/issue | head -1 | cut -f1 -d " ")
 case $OSFAMILY in
   Ubuntu|Debian)
-    PUPPET_URL="http://apt.puppetlabs.com";
-    DISTRIB_CODENAME=$(lsb_release -c | awk '{ print $2 }');
-    PUPPET_REPO="puppetlabs-release-$DISTRIB_CODENAME.deb";
+    PUPPET_REPO="puppetlabs-release-$(lsb_release -c -s).deb";
     DEBIAN_FRONTEND=noninteractive;
     RUNLEVEL=1
     echo force-confold >> /etc/dpkg/dpkg.cfg.d/force_confold;
-    /usr/bin/wget -O /tmp/$PUPPET_REPO $PUPPET_URL/$PUPPET_REPO 2>&1 >/dev/null;
+    /usr/bin/wget -O /tmp/$PUPPET_REPO "http://apt.puppetlabs.com/${PUPPET_REPO}" 2>&1 >/dev/null;
     /usr/bin/dpkg -i /tmp/$PUPPET_REPO;
     /usr/bin/apt-get -qq -y update;
     # Remove old managers before installing what we actually want.

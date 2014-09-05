@@ -23,8 +23,7 @@ case $OSFAMILY in
     PKGS='ruby-dev libxslt-dev libxml2-dev'
 
     PUPPET_URL="http://apt.puppetlabs.com";
-    DISTRIB_CODENAME=$(lsb_release -c | awk '{ print $2 }');
-    PUPPET_REPO="puppetlabs-release-$DISTRIB_CODENAME.deb";
+    PUPPET_REPO="puppetlabs-release-$(lsb_release -c -s).deb";
     DEBIAN_FRONTEND=noninteractive;
     RUNLEVEL=1
     APT_OPTS='-qq -y'
