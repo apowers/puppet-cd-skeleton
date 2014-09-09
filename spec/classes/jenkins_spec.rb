@@ -1,6 +1,6 @@
 require 'spec_helper_acceptance'
 
-describe 'profiles::jenkins class' do
+shared_examples 'profiles::jenkins' do
   describe service('jenkins') do
     it { should be_enabled }
     it { should be_running }

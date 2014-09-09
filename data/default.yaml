@@ -1,0 +1,50 @@
+---
+classes:
+  - 'profiles'
+
+puppet::config_main_options_hash:
+  'basemodulepath':   '$confdir/modules'
+  'confdir':          '/etc/puppet'
+  'environmentpath':  '$confdir/environments'
+  'factpath':         '$vardir/lib/facter:$vardir/facts'
+  'group':            'puppet'
+  'hiera_config':     '/etc/puppet/hiera.yaml'
+  'logdir':           '/var/log/puppet'
+  'masterport':       '8140'
+  'ordering':         'manifest'
+  'report':           'true'
+  'rundir':           '/var/run/puppet'
+  'ssldir':           '/var/lib/puppet/ssl'
+  'user':             'puppet'
+  'vardir':           '/var/lib/puppet'
+  'server':           'puppet'
+  'postrun_command':  '/usr/bin/check_nrpe.sh'
+
+puppet::config_agent_options_hash:
+  'environment':  'production'
+  'runinterval':  '30m'
+  'splay':        'true'
+  'splaylimit':   '20m'
+  'graph':        'true'
+  'pluginsync':   'true'
+  # Disable the default schedules as they cause continual skipped
+  # resources to be displayed in Foreman - only for Puppet >= 3.4
+  'default_schedules': 'false'
+
+puppet::config_master_options_hash:
+  'autosign':       'false'
+  'node_terminus':  'exec'
+  'external_nodes': '/etc/puppet/bin/host_role.rb'
+  #external_nodes': '/etc/puppet/bin/foreman_enc.rb'
+  'pluginsync':     'true'
+  'reports':        'log'
+  'storeconfigs':   'true'
+  'storeconfigs_backend': 'puppetdb'
+
+puppet::sysconfig_options_hash:
+  'START': 'yes'
+
+nrpe::server_address: '*'
+nrpe::allowed_hosts:
+  - '127.0.0.1'
+  - 'shinken'

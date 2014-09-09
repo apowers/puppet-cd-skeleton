@@ -11,16 +11,29 @@ CHECK_DIR=${1:-'/etc/nagios/nrpe.d'}
 
 #eXit status.
 X=0
+red='\E[0;31m'
+NC='\E[0m'
+F=''
 
 for test in $CHECK_DIR/* ; do
-  if [[ -f $test && -x $test ]] ; then
+  if [[ -f $test ]] ; then
     T=$(/bin/grep = $test|/usr/bin/cut -d'=' -f2)
-    R=$(/bin/sh -c "$T") && continue
-    X=$(($X+$?))
-    echo COMMAND: $T
-    echo FAILED:
-    echo $R
+    R=$(/bin/sh -c "$T")
+    Z=$?
+    X=$(($X+$Z))
+    if [[ $Z != 0 ]];then
+      F=$(echo $F ; echo $T)
+      echo -en ${red}
+    fi
+    echo $T
+    echo ${R}
+    echo -en ${NC}
   fi
 done
-
+if [[ $X != 0 ]] ; then
+echo -en ${red}
+echo ERROR: Some checks failed:
+echo $F
+echo -en ${NC}
+fi
 exit $X

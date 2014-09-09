@@ -2,25 +2,25 @@
 # This script runs in a new Vagrant instance.
 #
 
+[[ -r './puppet.conf' ]] && ( echo 'Must be run from puppet project root.' ; exit 1 )
+
+ROLE=$1
+export facter_role=${ROLE}
+
 mkdir -p /etc/facter/facts.d
 
-cat > /etc/facter/facts.d/role <<EOF
-#!/bin/sh
-echo role=cd_demo
-EOF
+echo '#!/bin/sh' > /etc/facter/facts.d/role
+echo "echo role=${ROLE}" >> /etc/facter/facts.d/role
 
-cat > /etc/facter/facts.d/zone <<EOF
-#!/bin/sh
-echo zone=testing
-EOF
+echo '#!/bin/sh' > /etc/facter/facts.d/environment
+echo "echo environment=testing" >> /etc/facter/facts.d/environment
 
 chmod +x /etc/facter/facts.d/*
 
-GEM_OPTS='--no-rdoc --quiet --no-ri'
+GEM_OPTS='--quiet --no-rdoc --quiet --no-ri'
 OSFAMILY=$(cat /etc/issue | head -1 | cut -f1 -d " ")
 case $OSFAMILY in
   Ubuntu|Debian)
-    PKGS='ruby-dev libxslt-dev libxml2-dev'
 
     PUPPET_URL="http://apt.puppetlabs.com";
     PUPPET_REPO="puppetlabs-release-$(lsb_release -c -s).deb";
@@ -28,19 +28,16 @@ case $OSFAMILY in
     RUNLEVEL=1
     APT_OPTS='-qq -y'
     echo force-confold >> /etc/dpkg/dpkg.cfg.d/force_confold;
-    export DEBIAN_FRONTEND=noninteractive
     echo 'Dpkg::Options{"--force-confdef";"--force-confold";}' >> /etc/apt/apt.conf.d/local
-    /usr/bin/apt-get -qq -y update;
-    /usr/bin/apt-get -qq -y install wget;
+    /usr/bin/apt-get ${APT_OPTS} update 2>&1 >/dev/null;
+    /usr/bin/apt-get ${APT_OPTS} install wget;
     /usr/bin/wget -O /tmp/$PUPPET_REPO $PUPPET_URL/$PUPPET_REPO 2>&1 >/dev/null;
     /usr/bin/dpkg -i /tmp/$PUPPET_REPO;
-    /usr/bin/apt-get -qq -y update;
+    /usr/bin/apt-get ${APT_OPTS} update 2>&1 >/dev/null;
     # Remove old managers before installing what we actually want.
-    echo Install Packages
-    /usr/bin/apt-get -qq -y install ${PKGS}
     echo Install Puppet
-    /usr/bin/apt-get -qq -y purge chef chef-zero puppet puppet-common ruby-hiera facter;
-    /usr/bin/apt-get -qq -y install puppet facter git
+    /usr/bin/apt-get ${APT_OPTS} purge chef chef-zero puppet puppet-common ruby-hiera facter;
+    /usr/bin/apt-get ${APT_OPTS} install puppet facter git
     unset RUNLEVEL
 
   ;;
@@ -57,12 +54,9 @@ case $OSFAMILY in
   ;;
 esac
 
-echo Install Gems
-# puppet-rspec has issues with rspec-core 3.0.0+ (2014.09.04)
-/usr/bin/gem install rspec -v '<3.0.0' ${GEM_OPTS}
-
-GEMS='beaker beaker-rspec bundler hiera-eyaml puppet_facts puppet-lint puppet-syntax r10k rake rspec-puppet puppetlabs_spec_helper'
-/usr/bin/gem install ${GEMS} ${GEM_OPTS}
+/usr/bin/gem install r10k ${GEM_OPTS}
+/usr/bin/gem install hiera-eyaml ${GEM_OPTS}
+/usr/bin/gem install rake ${GEM_OPTS}
 
 echo Install Puppet files
 rsync -a /remote/* /etc/puppet/. ; chown -R puppet /etc/puppet
@@ -72,11 +66,14 @@ echo Install modules via R10K/Librarian
 cd /etc/puppet
 /usr/local/bin/r10k puppetfile install
 
-puppet agent --enable
+rsync -a /remote/modules/* /etc/puppet/modules/. ; chown -R puppet: /etc/puppet
+puppet apply -t /etc/puppet/manifests/site.pp
 
-puppet apply /etc/puppet/manifests/site.pp
-
-echo 'To re-run tests:'
-#echo 'rsync -a /vagrant/* /etc/puppet/. ; chown -R puppet /etc/puppet ; puppet apply /etc/puppet/manifests/site.pp'
-echo '/remote/puppet-apply.sh [role]'
+echo Running NRPE Checks
+if [[ -x /usr/bin/check_nrpe.sh ]] ; then
+  /usr/bin/check_nrpe.sh
+else
+  echo "ERROR: No /usr/bin/check_nrpe.sh script found. Assume all tests failed."
+  exit -1
+fi
 

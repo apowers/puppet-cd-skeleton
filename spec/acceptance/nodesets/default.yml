@@ -2,13 +2,21 @@ HOSTS:
   ubuntu-1404-amd64-baseimage:
     roles:
       - master
+      - cd_demo
     platform:   ubuntu-14.04-amd64
     hypervisor: docker
-#    provision:  false
+    provision:  true
     image:      phusion/baseimage
     docker_cmd: '/sbin/my_init --enable-insecure-key'
-#    docker_image_commands:
-#       - '/remote/bin/provision-standalone.sh'
+
+  ubuntu-server-1404-x64-vagrant:
+    roles:
+      - master
+      - cd_demo
+    platform: ubuntu-server-14.04-amd64
+    box: puppetlabs/ubuntu-14.04-64-nocm
+    box_url: https://vagrantcloud.com/puppetlabs/ubuntu-14.04-64-nocm/version/2/provider/virtualbox.box
+    hypervisor: vagrant
 
 CONFIG:
   log_level: verbose
