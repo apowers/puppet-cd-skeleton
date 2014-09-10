@@ -2,8 +2,6 @@
 # This script runs in a new Vagrant instance.
 #
 
-[[ -r './puppet.conf' ]] && ( echo 'Must be run from puppet project root.' ; exit 1 )
-
 ROLE=$1
 export facter_role=${ROLE}
 

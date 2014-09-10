@@ -17,7 +17,6 @@ describe 'puppet apply' do
     it_behaves_like 'profiles::jenkins'
     it 'should pass NRPE checks' do
       shell('puppet apply -t /etc/puppet/manifests/site.pp')
-#      puppet_apply('-t /etc/puppet/manifests/site.pp')
       expect( shell(@nrpe_check_cmd).exit_code ).to eq(0)
     end
   end

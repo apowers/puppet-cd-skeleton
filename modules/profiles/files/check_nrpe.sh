@@ -5,7 +5,7 @@
 # Exits clean if no errors are reported. Reports errors if they are encountered.
 
 # apowers, 2014.07.10 - initial write
-# apowers, 2014.09.02 - convert from pandora checks to nrpe checks
+# apowers, 2014.09.09 - better output
 
 CHECK_DIR=${1:-'/etc/nagios/nrpe.d'}
 

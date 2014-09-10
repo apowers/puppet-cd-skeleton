@@ -11,8 +11,8 @@ class profiles::nginx () {
 
   # Check that the HTTP port is open
   profiles::types::nrpe_check { 'check_http_port':
-    command     => 'check_tcp -H localhost -p 80',
-    description => 'HTTP Port',
+    command     => 'check_http -H localhost',
+    description => 'HTTP Connection',
   }
 
 

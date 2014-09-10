@@ -31,7 +31,7 @@ on master,  shell('cd /etc/puppet && /usr/local/bin/r10k puppetfile install')
 scp_to(master, "#{proj_root}/modules", '/etc/puppet/')
 
 # Perform an initial puppet run.
-puppet_apply('-t /etc/puppet/manifests/site.pp')
+puppet_apply('/etc/puppet/manifests/site.pp')
 
 RSpec.configure do |c|
   # Project root
