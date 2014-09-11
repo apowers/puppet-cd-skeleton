@@ -24,6 +24,21 @@ Setup
 Operation
 ------
 When committing changes to the git repo:
+
 1. The pre-commit hook will perform a `rake validate`.
 1. The post-commit hook will send a signal, via curl, to jenkins at localhost:80 to build the puppet-cd_demo project.
 1. Jenkins will run `bin/puppet-integration-test.sh cd_demo`, which spawns a docker instance to test the role "cd_demo".
+
+Configuration
+------
+
+* Profiles module Rspec tests are in ./modules/profiles/spec and
+* Role Rspec tests are in ./spec (and don't work reliably)
+* Docker/Vagrant setup for Beaker is in ./spec/acceptance/nodesets
+
+TODO/BUGS
+------
+
+* Beaker acceptance tests don't work for the host roles.
+* Jenkins project is not created.
+* Jenkins may or may not show output from docker, it must do so consintently.
