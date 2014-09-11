@@ -1,0 +1,2 @@
+# Trigger a build
+curl -i http://localhost/job/puppet-cd_demo/build

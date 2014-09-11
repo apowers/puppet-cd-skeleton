@@ -1,6 +1,6 @@
 require 'spec_helper_acceptance'
 
-shared_examples 'profiles::nginx' do
+shared_context 'profiles::nginx' do
   describe service('nginx') do
     it { should be_enabled }
     it { should be_running }

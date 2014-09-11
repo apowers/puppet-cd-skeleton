@@ -11,15 +11,7 @@ describe 'puppet apply' do
       apply_manifest(manifest, :catch_failures => true)
       apply_manifest(manifest, :catch_changes  => true)
     end
-#    it_behaves_like 'profiles::nrpe'
-  describe service('nagios-nrpe-server') do
-    it { should be_enabled }
-    it { should be_running }
-  end
-
-  describe port(5666) do
-    it { should be_listening }
-  end
+    it_behaves_like 'profiles::nrpe'
     it_behaves_like 'profiles::puppet'
     it 'should pass NRPE checks' do
       expect(shell(@nrpe_check_cmd).exit_code).to eq(0)

@@ -47,7 +47,7 @@ RSpec.configure do |c|
   c.before :suite do
     hosts.each do |host|
       # Perform an initial puppet run.
-      on host, puppet_apply('-t /etc/puppet/manifests/site.pp'), :acceptable_exit_codes => [0,1,2,3,4]
+      on host, puppet_apply('/etc/puppet/manifests/site.pp'), :acceptable_exit_codes => [0,1,2,3,4]
     end
   end
 end

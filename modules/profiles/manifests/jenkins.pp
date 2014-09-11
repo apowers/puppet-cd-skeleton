@@ -6,9 +6,13 @@ class profiles::jenkins () {
     configure_firewall => false,
   }
 
+  jenkins::plugin { 'git': }
+  jenkins::plugin { 'parameterized-trigger': }
+
   file { '/etc/nginx/conf.d/jenkins.conf':
     ensure => 'present',
     source => 'puppet:///modules/profiles/jenkins/jenkins.nginx',
+    notify => Service['nginx'],
   }
 
   # Check that the Jenkins server is running
