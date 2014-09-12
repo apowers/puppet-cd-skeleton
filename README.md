@@ -9,7 +9,7 @@ Setup
 ------
 
 ### Requirements
-* Ubuntu LTS (Tested on 14.04)
+* Ubuntu/Debian (tested on Ubuntu 14.04)
 * Git
 * Connection to the Internet
 
@@ -36,9 +36,15 @@ Configuration
 * Role Rspec tests are in ./spec (and don't work reliably)
 * Docker/Vagrant setup for Beaker is in ./spec/acceptance/nodesets
 
+NOTES
+------
+Do not use this in production. Every time r10k updates the installed modules is will purge the profiles module.
+If you want to use something like this create your own profiles module in a new repository and manage it like a module.
+
 TODO/BUGS
 ------
 
 * Beaker acceptance tests don't work for the host roles.
 * Jenkins project is not created.
 * Jenkins may or may not show output from docker, it must do so consintently.
+* Some of the modules I use, especally the puppet module, are not well tested. Yet.

@@ -11,8 +11,8 @@ describe 'puppet apply' do
       expect(shell('facter_role=cd_demo puppet apply /etc/puppet/manifests/site.pp').exit_code).to_not eq(1)
       expect(shell('facter_role=cd_demo puppet apply /etc/puppet/manifests/site.pp').exit_code).to eq(0)
     end
-    it_behaves_like 'profiles::nginx'
-    it_behaves_like 'profiles::jenkins'
+    include_examples 'profiles::nginx'
+    include_examples 'profiles::jenkins'
     it 'should pass NRPE checks' do
       shell('puppet apply /etc/puppet/manifests/site.pp')
       expect( shell(@nrpe_check_cmd).exit_code ).to eq(0)
