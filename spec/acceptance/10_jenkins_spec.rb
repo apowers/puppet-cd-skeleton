@@ -1,5 +1,4 @@
-# require 'spec_helper_acceptance'
-
+# Shared examples for jenkins server.
 shared_examples 'profiles::jenkins' do
   describe 'includes profiles::jenkins with' do
     describe service('jenkins') do

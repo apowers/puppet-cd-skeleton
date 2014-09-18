@@ -1,5 +1,4 @@
-#require 'spec_helper_acceptance'
-
+# Shared examples for NRPE server.
 shared_examples 'profiles::nrpe' do
   describe 'includes profiles::nrpe with' do
     describe service('nagios-nrpe-server') do

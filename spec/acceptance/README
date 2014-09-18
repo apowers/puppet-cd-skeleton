@@ -1,0 +1,6 @@
+# File Ordering
+
+00 - Initializers and Preperation
+10 - Shared Examples
+20 - Without a Role
+50 - With Standard Roles

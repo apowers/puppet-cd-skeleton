@@ -12,7 +12,7 @@ puppet::config_main_options_hash:
   'logdir':           '/var/log/puppet'
   'manifest':         '$confdir/manifests/site.pp'
 #  'masterport':       '8140'
-#  'modulepath':       '$confdir/modules'
+  'modulepath':       '$confdir/modules'
   'ordering':         'manifest'
   'report':           'true'
   'rundir':           '/var/run/puppet'

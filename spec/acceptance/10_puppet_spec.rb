@@ -1,5 +1,4 @@
-#require 'spec_helper_acceptance'
-
+# Shared examples for Puppet Agent
 shared_examples 'profiles::puppet' do
   describe 'includes profiles::puppet with' do
     describe service('puppet') do

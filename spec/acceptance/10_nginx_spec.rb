@@ -1,5 +1,4 @@
-#require 'spec_helper_acceptance'
-
+# Shared examples for Nginx server
 shared_examples 'profiles::nginx' do
   describe 'includes profiles::nginx with' do
     describe service('nginx') do

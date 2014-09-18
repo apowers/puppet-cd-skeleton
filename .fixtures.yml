@@ -1,4 +1,4 @@
 fixtures:
   symlinks:
-#    profiles: "#{source_dir}"
+    profiles: "#{source_dir}/modules/profiles"
 
